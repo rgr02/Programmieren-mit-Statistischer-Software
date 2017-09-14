@@ -109,17 +109,17 @@ time
 
 # Aufgabe 5 ####################################################################
 rm(list = ls())
-library(dplyr)
 library(MASS)
-data("genotype", package = "MASS")
+library(dplyr)
 
+data("genotype", package = "MASS")
 str(genotype)
 head(genotype)
 
 dim(genotype)
 # 61 Beobachtungen und 3 Variablen
 
-result.set <- select(genotype, Litter, Mother, Wt) %>%
+result.set <- dplyr::select(genotype, Litter, Mother, Wt) %>%
   group_by(Litter, Mother) %>%
   summarise(beobachtung = n(),
             mean.wt = round(mean(Wt),2))
@@ -136,4 +136,7 @@ title(main = "Weight / Litter", xlab = "Genotype", ylab = "Weight")
 dev.off()
 
 # Mosaicplot
-# mosaicplot(result.set$Mother ~ result.set$Litter, col = "red", margin = result.set$mean.wt)
+ #mosaicplot(factor(result.set$Mother) ~ factor(result.set$Litter), col = "red", margin = result.set$mean.wt)
+
+ mosaicplot(table(genotype[,-3]), main = "Darstellung Mutter / Ziehmutter")
+ 
