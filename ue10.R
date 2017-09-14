@@ -73,18 +73,23 @@ visualize_dist <- function(name, dist_par, x, discrete = FALSE, ...) {
 
 # Aufgabe 5 #########################################################################
 
-# https://en.wikipedia.org/wiki/Truncated_normal_distribution
-
 rtrnorm <- function(n, mean = 0, sigma = 1, lower = -Inf, upper = Inf) {
   
   # Gleichverteilte Zufallsvariable
   u <- runif(n,min=0,max=1)
   
-  x <- 
+  # https://en.wikipedia.org/wiki/Truncated_normal_distribution
+  e <- (u - mean(u))/sd(u)
+  a <- (min(u)-mean(u))/sd(u)
+  b <- (max(u)-mean(u))/sd(u)
+  z <- pnorm(b) - pnorm(a)
+  
+  x <-  (pnorm(e) - pnorm(a)) / z
+  
   # Quantilsfunktion = inverse CDF
   # https://en.wikipedia.org/wiki/Quantile_function
+  x <- qnorm(x, mean = mean, sd = sigma) 
   
-  x <- qnorm(u, mean = mean, sd = sigma) 
   return(x)
 }
 
