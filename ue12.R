@@ -194,6 +194,13 @@ select(eusilc,
   summarise(sum(hsize*db090))
 
 # Geschlechtsverteilung
-table(eusilc$rb090)
+prop.table(table(eusilc$rb090))
 pie(table(eusilc$rb090), col = c("blue","red"))
 
+gender.freq <- select(eusilc, rb090, rb050) %>%
+  group_by(rb090) %>%
+  summarize(sum(rb050))
+
+gender.freq
+
+prop.table(gender.freq$`sum(rb050)`)

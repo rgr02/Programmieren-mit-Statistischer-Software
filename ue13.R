@@ -109,19 +109,23 @@ EURO4PlayerSkillsSep11$Forward <- factor(0,levels = 0:2, labels = c( "Nie","Prim
 # "Defender" SB LB RB CB WB
 # "Midfielder" DMF CMF  SMF AMF
 # "Forward" ss wf CF
+# 
+# Fehlerbehandlung:
+# Länge von Grep abfragen.
 
 EURO4PlayerSkillsSep11[grep("GK", EURO4PlayerSkillsSep11$Positions),]$Goalkeeper <- "Sekundär"
 EURO4PlayerSkillsSep11[grep("GK!", EURO4PlayerSkillsSep11$Positions),]$Goalkeeper <- "Primär"
 
-EURO4PlayerSkillsSep11[grep("[SB|LB|RB|CB|WB]", EURO4PlayerSkillsSep11$Positions),]$Defender <- "Sekundär"
-EURO4PlayerSkillsSep11[grep("[SB!|LB!|RB!|CB!|WB!]", EURO4PlayerSkillsSep11$Positions),]$Defender <- "Primär"
+EURO4PlayerSkillsSep11[grep("(SB|LB|RB|CB|WB)", EURO4PlayerSkillsSep11$Positions),]$Defender <- "Sekundär"
+EURO4PlayerSkillsSep11[grep("(SB\\!|LB\\!|RB\\!|CB\\!|WB\\!)", EURO4PlayerSkillsSep11$Positions),]$Defender <- "Primär"
 
-EURO4PlayerSkillsSep11[grep("[DMF|CMF|SMF|AMF]", EURO4PlayerSkillsSep11$Positions),]$Midfielder <- "Sekundär"
-EURO4PlayerSkillsSep11[grep("[DMF!|CMF!|SMF!|AMF!]", EURO4PlayerSkillsSep11$Positions),]$Midfielder <- "Primär"
+EURO4PlayerSkillsSep11[grep("(DMF|CMF|SMF|AMF)", EURO4PlayerSkillsSep11$Positions),]$Midfielder <- "Sekundär"
+EURO4PlayerSkillsSep11[grep("(DMF\\!|CMF\\!|SMF\\!|AMF\\!)", EURO4PlayerSkillsSep11$Positions),]$Midfielder <- "Primär"
 
-EURO4PlayerSkillsSep11[grep("[SS|WF|CF]", EURO4PlayerSkillsSep11$Positions),]$Forward <- "Sekundär"
-EURO4PlayerSkillsSep11[grep("[SS!|WF!|CF!]", EURO4PlayerSkillsSep11$Positions),]$Forward <- "Primär"
+EURO4PlayerSkillsSep11[grep("(SS|WF|CF)", EURO4PlayerSkillsSep11$Positions),]$Forward <- "Sekundär"
+EURO4PlayerSkillsSep11[grep("(SS\\!|WF\\!|CF\\!)", EURO4PlayerSkillsSep11$Positions),]$Forward <- "Primär"
 
+table(rowSums(EURO4PlayerSkillsSep11 == "Primär"))
 
 # Aufgabe 5 ################################################
 

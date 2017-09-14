@@ -147,22 +147,28 @@ emp.dist.func <- function(x, na.rm = T, type = c("stetig", "diskret"),
   
   stopifnot(!missing(x),
             !missing(type),
-            is.vector(x),
-            type %in% c("stetig", "diskret"))
+            is.vector(x))
   
   type <- match.arg(type)
   
   if(type == "stetig"){
     x <- cut(x, breaks = breaks, include.lowest = T) # Parameter laut Angabe
   }
-  return( function(x){
-    stopifnot(is.vector(x), # wurde eigentlich schon geprüft
-              is.numeric(x),
-              length(x) != 1)
-    return(ecdf(x))
+  return( function(y){
+    stopifnot(is.vector(y), # wurde eigentlich schon geprüft
+              is.numeric(y),
+              length(y) == 1)
+    return(ecdf(x)(y))
   })
 }# emp.dist.func
 
 set.seed(1234)
 x <- rnorm(200)
 emp.dist.func(x, type = "stetig")
+
+foo <- emp.dist.func(x, type = "diskret")
+foo(-2)
+foo(0)
+foo(2)
+quantile(x)
+foo(5)
